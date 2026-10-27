@@ -4,7 +4,7 @@ wordpress:
   service:
     type: NodePort
     # 30080 on the kind node is mapped to localhost:30080 on the host
-    nodePort: 30080
+    nodePort: 30001
   persistence:
     storageClass: standard
 
