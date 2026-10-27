@@ -1,0 +1,17 @@
+# Overrides for the local kind cluster.
+# Usage: helm install my-wp ./wordpress-chart -f ./wordpress-chart/values-kind.yaml
+wordpress:
+  service:
+    type: NodePort
+    # 30080 on the kind node is mapped to localhost:30080 on the host
+    nodePort: 30080
+  persistence:
+    storageClass: standard
+
+mysql:
+  persistence:
+    storageClass: standard
+
+# kind has no ingress controller installed and no host port 80/443 mapping
+ingress:
+  enabled: false

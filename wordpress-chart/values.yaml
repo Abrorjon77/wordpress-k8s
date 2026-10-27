@@ -1,0 +1,41 @@
+wordpress:
+  image:
+    repository: wordpress
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+    # Only used when type is NodePort
+    nodePort: ""
+  persistence:
+    storageClass: default
+    size: 3Gi
+  resources: {}
+
+mysql:
+  image:
+    repository: mysql
+    tag: "8.0"
+    pullPolicy: IfNotPresent
+  persistence:
+    storageClass: default
+    size: 1Gi
+  resources: {}
+  # Plain-text values; the chart base64-encodes them into the Secret.
+  # Override at install time, e.g. --set mysql.auth.password=...
+  auth:
+    rootPassword: rootpassword
+    database: wordpress
+    user: wordpress
+    password: wordpresspass
+
+ingress:
+  enabled: true
+  className: nginx
+  host: wordpress.hkhinfoteck.xyz
+  annotations: {}
+  tls: []
+  #  - secretName: wordpress-tls
+  #    hosts:
+  #      - wordpress.hkhinfoteck.xyz

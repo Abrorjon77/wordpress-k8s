@@ -1,0 +1,26 @@
+# ArgoCD Application: deploys ./wordpress-chart from Git into the "wordpress" namespace.
+# Replace YOUR_GITHUB_USER below, then: kubectl apply -f argocd/wordpress-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_USER/wordpress-k8s.git
+    targetRevision: main
+    path: wordpress-chart
+    helm:
+      valueFiles:
+        - values-kind.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wordpress
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    # Exercise 5: uncomment to let ArgoCD sync automatically
+    # automated:
+    #   prune: true
+    #   selfHeal: true
