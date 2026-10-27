@@ -21,6 +21,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
     # Exercise 5: uncomment to let ArgoCD sync automatically
-    automated:
-       prune: true
-       selfHeal: true
+    # automated:
+    #   prune: true
+    #   selfHeal: true
