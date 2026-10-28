@@ -1,0 +1,33 @@
+# Values for the kube-prometheus-stack chart on the local kind cluster.
+# Usage:
+#   helm install monitoring prometheus-community/kube-prometheus-stack \
+#     -n monitoring --create-namespace -f monitoring/kube-prometheus-values.yaml
+
+grafana:
+  service:
+    type: NodePort
+    # kind node port 30000 is mapped to localhost:30000 on the host
+    nodePort: 30000
+  # Admin password is generated; read it from the monitoring-grafana secret.
+
+prometheus:
+  service:
+    type: NodePort
+    # kind node port 30090 is mapped to localhost:30090 on the host
+    nodePort: 30090
+  prometheusSpec:
+    # Pick up ServiceMonitors/PodMonitors from any namespace, not only this release's
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    retention: 2d
+
+# On kind these components listen on 127.0.0.1 inside the node, so Prometheus
+# can't scrape them and they would show as permanently "down".
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
