@@ -1,0 +1,18 @@
+# kind cluster used by this project.
+# Forwards NodePorts from the kind node (a Docker container) to localhost on your Mac.
+# Usage: kind create cluster --name lab --config kind/kind-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30000   # Grafana
+        hostPort: 30000
+      - containerPort: 30001   # WordPress (managed by ArgoCD)
+        hostPort: 30001
+      - containerPort: 30002   # spare
+        hostPort: 30002
+      - containerPort: 30080   # spare (WordPress via plain Helm in the exercises)
+        hostPort: 30080
+      - containerPort: 30090   # Prometheus
+        hostPort: 30090
